@@ -1,0 +1,81 @@
+
+<div class="page">
+    <div class="background">
+       <div class="form" *ngIf="cardReaderService.user as data">
+       <img [src]="data?.picture?.large" [alt]="data?.name?.first" width="150" height="150">
+       <div class="row">
+           <div class="mr-1">
+             <div style="margin-top: 20px" class="name-form-title">
+               <input type="text" name="title" autocomplete="off" required [(ngModel)]="data.name.title">
+               <label for="title" class="label-name">
+                 <span class="content-name">Title</span>
+               </label>  
+             </div>
+           </div>
+   
+         <div class="mr-1">
+           <div style="margin-top: 20px" class="name-form-name">
+             <input type="text" name="firstname" autocomplete="off" required [(ngModel)]="data.name.first">
+             <label for="firstname" class="label-name">
+               <span class="content-name">First Name</span>
+             </label>      
+           </div>
+         </div>
+   
+         <div class="mr-1">
+           <div style="margin-top: 20px" class="name-form-name">
+             <input type="text" name="lastname" autocomplete="off" required [(ngModel)]="data.name.last">
+             <label for="lastname" class="label-name">
+               <span class="content-name">Last Name</span>
+             </label>  
+           </div>
+         </div>
+       </div>
+   
+   
+   
+     <div class="row">
+       <div class="mr-1">
+         <div style="margin-top: 5px" class="name-form-location">
+           <input type="text" name="city" autocomplete="off" required [(ngModel)]="data.location.city">
+           <label for="city" class="label-name">
+             <span class="content-name">City</span>
+           </label>  
+         </div>
+       </div>
+       <div class="mr-1">
+         <div style="margin-top: 5px" class="name-form-location">
+          <input type="text" name="country" autocomplete="off" required [(ngModel)]="data.location.country">
+           <label for="country" class="label-name">
+             <span class="content-name">Country</span>
+           </label>  
+         </div>
+       </div>
+     </div>
+   
+   
+   
+   
+       <div style="margin-top: 5px" class="name-form-email">
+         <input type="text" name="email" autocomplete="off" required [(ngModel)]="data.email">
+         <label for="email" class="label-name">
+           <span class="content-name">E-Mail</span>
+         </label>  
+       </div>
+       <div style="margin-top: 5px" class="name-form-cell">
+         <input type="text" name="cell" autocomplete="off" required [(ngModel)]="data.cell">
+         <label for="cell" class="label-name">
+           <span class="content-name">Cellphone</span>
+         </label>  
+       </div>
+       
+     </div>
+    </div>
+   </div>
+   
+    
+   <nav><a class="backbutton" routerLink="/userinfo">Go Back</a></nav>
+   
+   
+   <router-outlet></router-outlet>
+   

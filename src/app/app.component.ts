@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { CardReaderComponent } from './card-reader/card-reader.component';
+
+
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'cardreader';
+  title = 'Random User Generator';
+
+  constructor(
+    private readonly cardReaderService: CardReaderComponent,
+  ) {
+    // this.cardReaderService.connectSerial();
+    // this.cardReaderService.getUser();
+  }
+
+
 }

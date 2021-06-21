@@ -1,0 +1,190 @@
+/* Application-wide Styles */
+h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 140%;
+  }
+  h2, h3 {
+    color: #444;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+  }
+ 
+  body, input[type="text"], button {
+    color: #333;
+    font-family: Cambria, Georgia, serif;
+  }
+  /* everywhere else */
+  * {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+/*  ---------------------------------------------------------------------------     */
+  label {
+    color: #171b1d;
+    font-weight: bold;
+  }
+  input {
+    font-size: 1em;
+    padding: .5rem;
+  }
+  button {
+    margin-top: 20px;
+    background-color: #eee;
+    padding: 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  button:hover {
+    background-color: #cfd8dc;
+  }
+  button:disabled {
+    background-color: #eee;
+    color: #ccc;
+    cursor: auto;
+  }
+
+
+
+  /*--------------------------------------------*/
+ 
+  
+  
+  img {
+      
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 50%;
+      width: auto;
+  }
+
+  h2 {
+    text-align: center;
+  }
+  
+  .heroes-menu {
+    padding: 0;
+    margin: auto;
+    max-width: 1000px;
+  
+    /* flexbox */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  a {
+    background-color: #3f525c;
+    border-radius: 2px;
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: inline-block;
+    color: #fff;
+    text-align: center;
+    width: 45px;
+    min-width: 45px;
+    margin: .5rem auto;
+    box-sizing: border-box;
+  
+    /* flexbox */
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+  }
+  
+  @media (min-width: 600px) {
+    a {
+      width: 18%;
+      box-sizing: content-box;
+    }
+  }
+  
+  a:hover {
+    background-color: #000;
+  }
+
+   .badge {
+    display: inline-block;
+    font-size: small;
+    color: white;
+    padding: 0.8em 0.7em 0 0.7em;
+    background-color:#405061;
+    line-height: 1em;
+    position: relative;
+    left: -1px;
+    top: -4px;
+    height: 1.8em;
+    min-width: 16px;
+    text-align: right;
+    margin-right: .8em;
+    border-radius: 4px 4px 4px 4px;
+  }
+
+  .page{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+        
+  }
+  
+  .background {
+      
+    background-color: #e4e4e4;
+    padding: 10px;
+    border-radius: 4px 4px 4px 4px;
+    display: flex;
+    flex-shrink: 1;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: stretch;
+    max-width: 580px;
+    min-width: 400px;
+    
+    
+  }
+
+  .editbutton {
+    
+    background-color: #626262;
+    padding: 0.2em 0em 0em 0.2em;
+    border-radius: 4px 4px 4px 4px;
+    display: flex;
+    max-width: 50px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    
+  }
+
+  .backbutton {
+    
+    background-color: #626262;
+    padding: 0.2em 0em 0em 0.2em;
+    border-radius: 4px 4px 4px 4px;
+    display: flex;
+    max-width: 85px;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+    border-radius: 50%;
+    width: auto;
+    padding: 10px;
+  }
+
+  body {
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+    font-family: Arial, Helvetica, sans-serif
+  }
