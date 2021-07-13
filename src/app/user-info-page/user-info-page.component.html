@@ -1,20 +1,29 @@
 
 <div class="page">
     <div class=background>
-      <div *ngIf="cardReaderService.user as data">
-        <img [src]="data?.picture?.large" [alt]="data?.name?.first" width="150" height="150">
+      <div *ngIf="!user?.user">
+        {{user.errorMsg}}
+      </div>
+      <div *ngIf="user.user as data">
+        <img [src]="data?.picture.large" [alt]="data?.name.first" width="150" height="150">
   
         <nav><a class="editbutton" routerLink="/editinfo">Edit</a></nav>
   
-        <h2><span class="badge">Name:</span>{{data?.name?.title}}. {{data?.name?.first}} {{data?.name?.last}}</h2>
-        <h2><span class="badge">Location: </span>{{data?.location?.city}}, {{data?.location?.country}}</h2>
-        <h2><span class="badge">E-mail Address: </span>{{data?.email}}</h2>
+        <h2><span class="badge">Name:</span>{{data?.name.title}}. {{data?.name.first}} {{data.name.last}}</h2>
+        <h2><span class="badge">Location: </span>{{data.location.city}}, {{data?.location?.country}}</h2>
+        <h2><span class="badge">E-mail Address: </span>{{data.email}}</h2>
         <h2><span class="badge">Cellphone Number: </span>{{data?.cell}}</h2>
+        
       </div>
+      
     </div>
+    
   </div>
   
+  
+  
   <nav><a class="backbutton" routerLink="/readuser">Go Back</a></nav>
+  <h4>60 Saniye içinde anasayfaya yönlendirileceksiniz.</h4>
   
   
   <router-outlet></router-outlet>

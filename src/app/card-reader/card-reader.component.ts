@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-card-reader',
@@ -15,6 +16,21 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 // 0xff 0x00 0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2  - Tam Kart
+// 0xff 0x00 0x06 0x83 0xe3 0xd4 0xfe 0x73 0xab 0x5c  - Tam Kart 'e3d4fe73'
+// 0xff 0x00 0x06 0x83 0x98 0xc7 0x95 0xdd 0xab 0x05  - Tam Kart '98c795dd'
+// 0xff 0x00 0x06 0x83 0xc7 0x24 0xeb 0x44 0xab 0x4e  - Tam Kart 'c724eb44'
+// 0xff 0x00 0x06 0x83 0xbf 0xb8 0xd6 0xd9 0xab 0x5a  - Tam Kart 'bfb8d6d9'
+// 0xff 0x00 0x06 0x83 0xde 0xf7 0x1f 0x1d 0xab 0x45  - Tam Kart 'def71f1d'
+// 0xff 0x00 0x06 0x83 0x57 0x36 0xcf 0x62 0xab 0xf2  - Tam Kart '5736cf62'
+// 0xff 0x00 0x06 0x83 0xf3 0x2a 0x20 0x68 0xab 0xd9  - Tam Kart 'f32a2068'
+// 0xff 0x00 0x06 0x83 0x34 0xf0 0x3f 0xef 0xab 0x86  - Tam Kart '34f04fef'
+// 0xff 0x00 0x06 0x83                     d91f7cf2
+// 0xff 0x00 0x06 0x83                     83949357
+
+
+
+
+
 // 0xff 0x00 0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 0xff 0x00  0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 - Test Kartı
 // ['ff','00','06','83','45','83','12','a4','ab','b2'];
 
@@ -25,12 +41,13 @@ export class CardReaderComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private router: Router,
-    private readonly http: HttpClient,
+    private http: HttpClient,
+    private user: UserService,
   ) {
     console.log('CardReader');
   }
 
-  httpOptions = {
+  public httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
@@ -39,8 +56,6 @@ export class CardReaderComponent implements OnInit {
     artan: [],
   };
 
-  private apiUrl = 'https://randomuser.me/api/';
-  user: User = null;
 
   public onRead(hexVault: Array<string>): any {
     console.log('Alınan Veri: ', hexVault);
@@ -63,25 +78,26 @@ export class CardReaderComponent implements OnInit {
 
             this.cardData.cardNo = cardNumber;
             this.cardData.artan = heksVault;
-            this.getUser();
+            this.user.getUser(cardNumber.join(''));
             return;
+          } else {
+            console.error('Son karakter hatalı, olması gereken: ', (sonuc % 256).toString(16), 'Gelen: ', hexVaultSliced10[9]);
+            this.user.errorMsg = 'Son karakter hatalı, olması gereken: ' + (sonuc % 256).toString(16) + 'Gelen: ' + hexVaultSliced10[9];
           }
 
+        } else {
+          this.user.errorMsg = 'Yanlış Komut';
         }
+      } else {
+        this.user.errorMsg = '10 gelmedi';
       }
 
     }
 
   }
 
-  /* Api */
-  public getUser(): void {
-    this.http.get<UserApiResponse>(this.apiUrl + this.cardData.cardNo.join('')).subscribe(data => {
-      this.user = data.results[0];
-    });
-  }
 
-
+  /*this.cardData.cardNo.join('')*/
   public async connectSerial(): Promise<string | Array<string> | any> {
     try {
       const port = await navigator.serial.requestPort();
@@ -144,35 +160,6 @@ export class CardReaderComponent implements OnInit {
 
 
 
-
-/* Api Kodu */
-interface User {
-  gender: string;
-  name: {
-    title: string;
-    first: string;
-    last: string;
-  };
-  location: {
-    city: string;
-    country: any;
-  };
-  email: any;
-  dob: {
-    age: number;
-  };
-  cell: string;
-  picture: {
-    large: string;
-  };
-}
-
-
-interface UserApiResponse {
-  // Create from here: https://randomuser.me/documentation#results
-  results: User[];
-  info: { /* ... */ };
-}
 
 
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CardReaderComponent } from '../card-reader/card-reader.component';
+import { UserService } from '../user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-info-page',
@@ -8,9 +10,20 @@ import { CardReaderComponent } from '../card-reader/card-reader.component';
 })
 export class UserInfoPageComponent implements OnInit {
 
-  constructor(public readonly cardReaderService: CardReaderComponent) { }
+  constructor(
+    public user: UserService,
+    private location: Location
+
+    ) {
+    setTimeout(() => {
+      // this.location.back(); // edit sayfasına dönebiliyor
+      window.location.replace('http://localhost:4200');
+    }, 60000);
+   }
 
   ngOnInit(): void {
   }
 
+
 }
+

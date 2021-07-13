@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CardReaderComponent } from '../card-reader/card-reader.component';
+import { UserService } from '../user.service';
+
 
 @Component({
   selector: 'app-edit-info-page',
@@ -13,7 +15,7 @@ export class EditInfoPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    public readonly cardReaderService: CardReaderComponent,
+    public user: UserService,
   ) { }
 
   ngOnInit(): void {

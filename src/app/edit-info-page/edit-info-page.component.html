@@ -1,7 +1,7 @@
 
 <div class="page">
     <div class="background">
-       <div class="form" *ngIf="cardReaderService.user as data">
+       <div class="form" *ngIf="user.user as data">
        <img [src]="data?.picture?.large" [alt]="data?.name?.first" width="150" height="150">
        <div class="row">
            <div class="mr-1">

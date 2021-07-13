@@ -10,7 +10,7 @@ import { CardReaderComponent } from './card-reader/card-reader.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Random User Generator';
+  title = 'Antalya Otel';
 
   constructor(
     private readonly cardReaderService: CardReaderComponent,
