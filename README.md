@@ -18,6 +18,11 @@ This is a card reader program that is made for learning purposes. Currently it c
 
   ```npm install -g @angular/cli```
 
+- tslib
+
+  ```npm i tslib```
+  
 - Visual Studio Code 
 
   ```1.58.0```
+
