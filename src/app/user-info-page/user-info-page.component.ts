@@ -20,7 +20,7 @@ export class UserInfoPageComponent implements OnInit, OnDestroy {
     private router: Router,
     ) {
     timer = setTimeout(() => {
-      // this.location.back();
+      // this.location.back(); //
       // window.location.replace('http://localhost:4200');
       router.navigate(['/']);
     }, 6000);
