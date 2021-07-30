@@ -19,12 +19,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": false,
     "strictInputAccessModifiers": false,
-    "strictTemplates": false
-  }
+    "strictTemplates": false,
+
+  },
+
 }

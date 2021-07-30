@@ -148,7 +148,7 @@ h1 {
     flex-wrap: wrap;
     align-content: stretch;
     max-width: 580px;
-    min-width: 400px;
+    min-width: 0;
     
     
   }
@@ -176,10 +176,16 @@ h1 {
   }
 
   body {
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     justify-content: space-around;
     align-items: center;
-    
+    height: 100%;
     font-family: Arial, Helvetica, sans-serif
   }
+
+  html {
+    background-color: rgba(255, 0, 0, 0);
+  }
+
+  

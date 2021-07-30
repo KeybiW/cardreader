@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { Location } from '@angular/common';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timeout } from 'q';
+
 
 let timer;
 @Component({
@@ -23,7 +23,7 @@ export class UserInfoPageComponent implements OnInit, OnDestroy {
       // this.location.back(); //
       // window.location.replace('http://localhost:4200');
       router.navigate(['/']);
-    }, 6000);
+    }, 600000);
   }
 
   ngOnDestroy(): void {
