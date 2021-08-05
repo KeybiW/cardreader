@@ -35,22 +35,19 @@ const errorCodes = {
   0:   '0 - Internet bağlantısı mevcut değil.'
 };
 
-
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
 
   private apiUrl = 'https://europe-west3-easypms-angus-internal-chat.cloudfunctions.net/function-1/';
   user: User = null;
   errorMsg = 'Lütfen Kart Okutunuz';
 
-
   constructor(private http: HttpClient) { }
 
-
   public async getUser(cardNo: string): Promise<User> {
-
     try {
       const data = await this.http.post<User>(this.apiUrl, { cardNo: cardNo }).toPromise();
       console.log('data', data);
@@ -66,10 +63,6 @@ export class UserService {
           this.errorMsg = 'Bilinmeyen hata';
         }
       }
-
     }
-
   }
-
-
 }

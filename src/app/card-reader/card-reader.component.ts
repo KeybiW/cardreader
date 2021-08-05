@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -28,14 +28,10 @@ import { UserService } from '../user.service';
 // 0xff 0x00 0x06 0x83 0xd9 0x1f 0x7c 0xf2 0xab 0x9a  - Tam Kart 'd91f7cf2'
 // 0xff 0x00 0x06 0x83 0x83 0x94 0x93 0x57 0xab 0x35  - Tam Kart '83949357'
 
-
-
-
-
-// 0xff 0x00 0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 0xff 0x00  0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 - Test Kartı
+// 0xff 0x00 0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 0xff 0x00  0x06 0x83 0x45 0x83 0x12 0xa4 0xab 0xb2 - Test Komutu
 // ['ff','00','06','83','45','83','12','a4','ab','b2'];
 
-/* Kart Okuyucu Kodu */
+
 export class CardReaderComponent implements OnInit {
 
   constructor(
@@ -44,6 +40,7 @@ export class CardReaderComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private user: UserService,
+    private ngZone: NgZone,
   ) {
     console.log('CardReader');
   }
@@ -56,7 +53,6 @@ export class CardReaderComponent implements OnInit {
     cardNo: [],
     artan: [],
   };
-
 
   public onRead(hexVault: Array<string>): any {
     console.log('Alınan Veri: ', hexVault);
@@ -76,12 +72,10 @@ export class CardReaderComponent implements OnInit {
           if ((sonuc % 256) === parseInt(hexVaultSliced10[9], 16)) {
             const cardNumber = hexVaultSliced10.slice(4, 8);
             const heksVault = hexVault.slice(10, hexVault.length);
-
             this.cardData.cardNo = cardNumber;
             this.cardData.artan = heksVault;
-            console.log('???', cardNumber.join(''));
-            // this.user.getUser(cardNumber.join(''));
-            this.user.getUser('98c795dd');
+            this.user.getUser(cardNumber.join(''));
+            // this.user.getUser('98c795dd');
             return;
           } else {
             console.error('Son karakter hatalı, olması gereken: ', (sonuc % 256).toString(16), 'Gelen: ', hexVaultSliced10[9]);
@@ -92,11 +86,9 @@ export class CardReaderComponent implements OnInit {
           this.user.errorMsg = 'Yanlış Komut';
         }
       } else {
-        this.user.errorMsg = '10 gelmedi';
+        this.user.errorMsg = '10 hane gelmedi';
       }
-
     }
-
   }
 
   public async cardRead(reader): Promise<any> {
@@ -106,7 +98,6 @@ export class CardReaderComponent implements OnInit {
       const { value: bytes, done } = await reader.read() as { value: Uint8Array, done: boolean };
       if (bytes) {
         const hexArr: Array<string> = Array.from(bytes).map(x => {
-
           const inside = x.toString(16);
           console.log('inside: ', inside);
           if (inside.length === 1) {
@@ -120,7 +111,7 @@ export class CardReaderComponent implements OnInit {
           }
         });
         hexVault.push(...hexArr);
-        console.log('hexVaultasd: ', hexVault);
+        console.log('hexVault push: ', hexVault);
         this.onRead(hexVault);
         const result = this.cardData;
 
@@ -129,10 +120,7 @@ export class CardReaderComponent implements OnInit {
           console.log('Artan Veri: ', result.artan);
           console.log('Kart Numarası: ', result.cardNo);
         }
-
       }
-
-
 
       if (done) {
         console.log('[readLoop] DONE', done);
@@ -142,138 +130,46 @@ export class CardReaderComponent implements OnInit {
     }
   }
 
+
   public async connectNfc(): Promise<any> {
+    document.getElementById('disappearingButton').innerHTML = '';
     if ('NDEFReader' in window) {
       const ndef = new NDEFReader();
       try {
         await ndef.scan();
-        alert('NFC Var');
+        alert('NFC Mevcut, kart okuma işlemlerinizi gerçekleştirebilirsiniz.');
 
         ndef.onreading = (event) => {
           this.router.navigateByUrl('/userinfo');
           const hexVault = event.serialNumber.split(':').join('');
-          alert(hexVault);
-          this.user.getUser(hexVault);
+          console.log(hexVault);
+          // this.ngZone.run(() => this.user.getUser('98c795dd'));
+          this.ngZone.run(() =>  this.user.getUser(hexVault));
           return;
         };
-
-
-        /*    ndef.onreading = () => {
-          this.router.navigateByUrl('/userinfo');
-          this.user.getUser('98c795dd');
-        }; */
-
-
 
         ndef.onreadingerror = () => {
-          alert('Kart okunamadı lütfen tekrar deneyiniz.');
+          alert('Kart okunamadı, lütfen tekrar deneyiniz.');
         };
-
-
-        /* this.router.navigateByUrl('/userinfo');
-        this.user.getUser('98c795dd');
-        */
-
-        /* ndef.onreading = (event) => {
-
-          alert(`Kartın seri numarası: ${event.serialNumber}`);
-          alert(event.message.records.length);
-
-        }; */
-
-      /*   ndef.onreading = (event) => {
-          // const hexVault =  'ff:00:06:83:e3:d4:fe:73:ab:5c'.toString().split(':').join('').match(/.{2}/g);  event.serialNumber
-          this.router.navigateByUrl('/userinfo');
-          const hexVault = '98c795dd' // .toString().split(':').join('');
-          const asdf = event.serialNumber;
-          console.log(asdf);
-          alert(hexVault);
-          this.user.getUser('98c795dd');
-          return;
-        }; */
 
       } catch (error) {
         alert(error);
       }
     } else {
-      alert('Web NFC is not supported.');
+      alert('Cihaz NFC teknolojisini desteklemiyor. Lütfen seri portlar üzerinden bağlanmayı deneyin.');
+      await this.connectSerial();
     }
   }
 
-  /* public async connectNfc(): Promise<any> {
 
-    if ('NDEFReader' in window) {
-      alert('NFC var');
-      try {
-
-        const ndef = new NDEFReader();
-        await ndef.scan();
-        alert(`NFC okundu`);
-
-
-        ndef.addEventListener('readingerror', () => {
-          alert('Argh! Cannot read data from the NFC tag. Try another one?');
-        });
-
-        ndef.addEventListener('reading', ({serialNumber}) => {
-          alert(`> Serial Number: ${serialNumber}`);
-        });
-
-        */
-
-  // let hexVault = [];
-  // ndef.onreading = event => {
-  // };
-
-  // 0xff 0x00 0x06 0x83 0xe3 0xd4 0xfe 0x73 0xab 0x5c  - Tam Kart 'e3d4fe73'
-  // ff:00:06:83:e3:d4:fe:73:ab:5c
-
-
-  /* reader.onreading = ({ message }) => {
-    const hexVault = 'ff:00:06:83:e3:d4:fe:73:ab:5c'.toString().split(':').join('').match(/.{2}/g);
-    alert(message);
-    alert(hexVault);
-  }; */
-
-  /*
-  hexVault = 'ff:00:06:83:e3:d4:fe:73:ab:5c'.toString().split(':').join('').match(/.{2}/g);
-  alert(hexVault);
-  this.onRead(hexVault);
-  const result = this.cardData;
-
-  if (result) {
-    hexVault = result.artan;
-    console.log('Artan Veri: ', result.artan);
-    console.log('Kart Numarası: ', result.cardNo);
-  }
-  */
-
-  /*       } catch (e) {
-          alert(e);
-        }
-      } else {
-      console.log('NFC yok');
-      await this.connectSerial();
-      }
-
-    }  */
-
-  /*this.cardData.cardNo.join('')*/
   public async connectSerial(): Promise<string | Array<string> | any> {
 
     try {
       const port = await navigator.serial.requestPort();
       await port.open({ baudRate: 9600 });
-
-      // const decoder = new TextDecoderStream();
-
-      // port.readable.pipeTo(decoder.writable);
-
       const inputStream = port.readable;
       const reader = inputStream.getReader();
       this.cardRead(reader);
-
-
     } catch (error) {
       console.error(error);
     }
