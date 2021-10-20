@@ -39,6 +39,8 @@ const errorCodes = {
   providedIn: 'root'
 })
 
+
+
 export class UserService {
 
   private apiUrl = 'https://europe-west3-easypms-angus-internal-chat.cloudfunctions.net/function-1/';
