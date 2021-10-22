@@ -132,13 +132,11 @@ export class CardReaderComponent implements OnInit {
 
 
   public async connectNfc(): Promise<any> {
-    document.getElementById('disappearingButton').innerHTML = '';
+
     if ('NDEFReader' in window) {
       const ndef = new NDEFReader();
       try {
         await ndef.scan();
-        alert('NFC Mevcut, kart okuma işlemlerinizi gerçekleştirebilirsiniz.');
-
         ndef.onreading = (event) => {
           this.router.navigateByUrl('/userinfo');
           const hexVault = event.serialNumber.split(':').join('');
